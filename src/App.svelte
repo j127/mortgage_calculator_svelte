@@ -1,30 +1,31 @@
 <script>
-	export let name;
+    let years = 15;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+<main class="container">
+    <div class="row">
+        <h1>Mortgage Calculator</h1>
+    </div>
+    <div class="row">
+        <label>Loan Amount</label>
+        <input min="1" type="number" placeholder="Enter loan amount" class="u-full-width">
+    </div>
+    <div class="row">
+        <div class="columns six">
+            <label>Years</label>
+            <input type="range" min="1" max="50" class="u-full-width" bind:value={years}>
+        </div>
+        <div class="columns six outputs">
+            {years} Years
+        </div>
+    </div>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+    .outputs {
+        font-size: 20px;
+        border: solid black 2px;
+        margin-top: 15px;
+        text-align: center;
+    }
 </style>
