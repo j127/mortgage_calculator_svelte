@@ -1,5 +1,21 @@
 <script>
+    const formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
+    let loanAmount = 200000;
+    let interestRateInput = 200;
     let years = 15;
+    $: interestRate = interestRateInput / 100;
+    $: monthlyInterestRate = interestRate / 100 / 12;
+    $: totalPayments = years * 12;
+    $: monthlyPayment =
+        (loanAmount *
+            Math.pow(1 + monthlyInterestRate, totalPayments) *
+            monthlyInterestRate) /
+        (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+    $: totalPaid = monthlyPayment * totalPayments;
+    $: interestPaid = totalPaid - loanAmount;
 </script>
 
 <main class="container">
@@ -8,7 +24,7 @@
     </div>
     <div class="row">
         <label>Loan Amount</label>
-        <input min="1" type="number" placeholder="Enter loan amount" class="u-full-width">
+        <input min="1" type="number" placeholder="Enter loan amount" class="u-full-width" bind:value={loanAmount}>
     </div>
     <div class="row">
         <div class="columns six">
@@ -19,6 +35,18 @@
             {years} Years
         </div>
     </div>
+    <div class="row">
+        <div class="columns six">
+            <label>Interest Rate</label>
+            <input type="range" min="1" max="2000" class="u-full-width" bind:value={interestRateInput}>
+        </div>
+        <div class="columns six outputs">
+            {interestRate.toFixed(2)}%
+        </div>
+    </div>
+    <div class="row outputs">Monthly Payments {formatter.format(monthlyPayment)}</div>
+    <div class="row outputs">Total Paid {formatter.format(totalPaid)}</div>
+    <div class="row outputs">Interest Paid {formatter.format(interestPaid)}</div>
 </main>
 
 <style>
